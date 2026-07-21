@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Lisanga Tech | Solutions IT d'excellence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-body: linear-gradient(145deg, #f6f9fc 0%, #eef2f8 100%);
+            --bg-surface: #ffffff;
+            --bg-card: #ffffff;
+            --bg-soft: #eef5ff;
+            --bg-accent-light: #eef2fa;
+            --text-primary: #0a0c10;
+            --text-secondary: #1e293b;
+            --text-muted: #475569;
+            --border-light: #e0e8f2;
+            --shadow-sm: 0 12px 24px -12px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 35px 45px -18px rgba(0, 0, 0, 0.2);
+            --blue-deep: #0a66c2;
+            --blue-accent: #1e88e5;
+            --footer-bg: #0b1120;
+            --footer-text: #e2e8f0;
+            --testimonial-bg: #ffffffdd;
+            --card-gradient: linear-gradient(145deg, #0a0c14 0%, #0a1e32 50%, #0a4a7a 100%);
+            --card-text: #ffffff;
+            --card-icon: #aad0ff;
+            --modal-bg: rgba(10, 14, 23, 0.75);
+        }
+
+        body.dark {
+            --bg-body: #0a0c12;
+            --bg-surface: #11161f;
+            --bg-card: #121826;
+            --bg-soft: #0f172acc;
+            --bg-accent-light: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-light: #1e2a3a;
+            --blue-deep: #3b82f6;
+            --blue-accent: #60a5fa;
+            --testimonial-bg: #1e293b;
+            --footer-bg: #030712;
+            --card-gradient: linear-gradient(145deg, #03060c 0%, #0a1622 50%, #0a3b5e 100%);
+            --card-text: #f0f4ff;
+            --card-icon: #9ac4ff;
+            --modal-bg: rgba(0, 0, 0, 0.85);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: background 0.3s, color 0.2s;
+            overflow-x: hidden;
+        }
+        html { scroll-behavior: smooth; }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(16px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+        }
+        body.dark .navbar { background: rgba(10,14,23,0.9); }
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-link {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0a66c2, #2b7fcf);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none
+        }
+        body.dark .logo-link { background: linear-gradient(135deg, #60a5fa, #a78bfa); background-clip: text; }
+        .logo-link span { color: var(--text-primary); background: none; }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--blue-deep); }
+        .btn-contact-nav {
+            border: 1.5px solid var(--blue-deep);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            background: transparent;
+            color: var(--blue-deep);
+            font-weight: 600;
+        }
+        .btn-contact-nav:hover { background: var(--blue-deep); color: white; }
+        .theme-toggle {
+            background: var(--bg-accent-light);
+            border: none;
+            font-size: 1.3rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: 0.2s;
+            margin-left: 0.5rem;
+        }
+        .theme-toggle:hover { background: var(--blue-deep); color: white; transform: rotate(15deg); }
+        .burger { display: none; cursor: pointer; font-size: 1.7rem; color: var(--text-primary); }
+        @media (max-width: 850px) {
+            .burger { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 72px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 72px);
+                background: var(--bg-surface);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 2rem;
+                gap: 1.8rem;
+                transition: left 0.3s;
+                z-index: 999;
+                border-right: 1px solid var(--border-light);
+            }
+            .nav-links.active { left: 0; }
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+        .hero-text { flex: 1; }
+        .animated-title {
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            background: linear-gradient(120deg, #0f172a, #0a66c2, #38bdf8);
+            background-size: 250% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: gradientWave 5s ease infinite, floatBounce 3s ease-in-out infinite;
+        }
+        @keyframes gradientWave { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes floatBounce { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
+        .hero-text p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; }
+        .hero-badge { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .hero-badge span {
+            background: var(--bg-soft);
+            padding: 0.6rem 1.3rem;
+            border-radius: 60px;
+            color: var(--blue-deep);
+            border: 1px solid var(--border-light);
+        }
+        .hero-image { flex: 1; border-radius: 32px; overflow: hidden; box-shadow: var(--shadow-lg); }
+        .hero-image img { width: 100%; display: block; transition: transform 0.4s; }
+        .hero-image:hover img { transform: scale(1.02); }
+        .container { max-width: 1280px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.2rem; font-weight: 700; background: linear-gradient(120deg, var(--text-primary), var(--blue-deep)); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .section-header p { color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+        /* ========== CARTES SERVICES : MÊME HAUTEUR ========== */
+        .services-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            align-items: stretch; /* ← clé : toutes les cartes s'étirent à la même hauteur */
+        }
+        .service-card {
+            position: relative;
+            background: var(--card-gradient);
+            border-radius: 28px;
+            padding: 2rem 1.8rem;
+            flex: 1 1 260px; /* largeur min 260px, peut grandir */
+            max-width: 350px; /* pour éviter qu'elles deviennent trop larges */
+            min-height: 320px; /* hauteur minimale, mais flex: stretch l'ajustera si besoin */
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s;
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* centre verticalement le contenu */
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #60a5fa, #38bdf8, #60a5fa, transparent);
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 2px;
+            z-index: 2;
+            animation: vagueLine 2.5s ease-in-out infinite;
+            opacity: 0.85;
+        }
+        @keyframes vagueLine {
+            0% { background-position: -200% 0; transform: translateY(-50%) scaleX(1); }
+            50% { background-position: 200% 0; transform: translateY(-55%) scaleX(1.02); }
+            100% { background-position: -200% 0; transform: translateY(-50%) scaleX(1); }
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            left: 15%;
+            width: 70%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #a0c4ff, #ffffff, #a0c4ff, transparent);
+            top: calc(50% + 4px);
+            border-radius: 2px;
+            z-index: 2;
+            animation: vagueLineSecondary 3s ease-in-out infinite;
+            opacity: 0.5;
+        }
+        @keyframes vagueLineSecondary {
+            0% { background-position: -100% 0; transform: translateY(-50%) scaleX(0.95); }
+            50% { background-position: 100% 0; transform: translateY(-48%) scaleX(1); }
+            100% { background-position: -100% 0; transform: translateY(-50%) scaleX(0.95); }
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 22px 35px -12px rgba(0, 0, 0, 0.5);
+        }
+        .service-card:hover::before { animation-duration: 1.8s; opacity: 1; }
+        .service-icon {
+            font-size: 3rem;
+            color: var(--card-icon);
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 3;
+        }
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--card-text);
+            position: relative;
+            z-index: 3;
+        }
+        .service-card p {
+            color: rgba(255,255,250,0.9);
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            position: relative;
+            z-index: 3;
+            flex: 1; /* pousse le lien vers le bas si besoin */
+        }
+        .service-link {
+            text-decoration: none;
+            font-weight: 600;
+            color: #b9e0ff;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: 0.2s;
+            position: relative;
+            z-index: 3;
+            margin-top: auto; /* pousse le lien en bas dans chaque carte */
+        }
+        .service-link:hover { color: white; gap: 0.7rem; }
+
+        /* ========== AUTRES SECTIONS ========== */
+        .values-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin: 4rem 0;
+            align-items: center;
+        }
+        .values-text { flex: 1; }
+        .value-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: flex-start;
+        }
+        .value-icon {
+            font-size: 2rem;
+            background: var(--bg-soft);
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue-deep);
+        }
+        .values-img img {
+            width: 100%;
+            border-radius: 28px;
+            box-shadow: var(--shadow-md);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin: 5rem 0;
+        }
+        .about-text p { margin-bottom: 1rem; color: var(--text-secondary); }
+        .about-img img { width: 100%; border-radius: 28px; box-shadow: var(--shadow-md); }
+        .testimonials {
+            background: var(--bg-soft);
+            border-radius: 48px;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 1px solid var(--border-light);
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .testimonial-card {
+            background: var(--testimonial-bg);
+            border-radius: 24px;
+            padding: 1.8rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .testimonial-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem auto;
+            display: block;
+            border: 3px solid var(--blue-deep);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .stars { color: #fbbf24; margin-bottom: 1rem; }
+        .btn-primary {
+            background: var(--blue-deep);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .btn-primary:hover { background: #e11d48; transform: translateY(-4px); }
+        .footer-pro {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-light);
+        }
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        footer span { color: #0073ff; background: none; font-size: 1.5rem }
+        .footer-col a, .footer-col p { color: #cbd5e1; text-decoration: none; }
+        .social-links { display: flex; gap: 1.2rem; margin-top: 1rem; }
+        .social-links a { font-size: 1.5rem; transition: 0.2s; }
+        .social-links a:hover { color: var(--blue-accent); }
+        .copyright { text-align: center; margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid #1e293b; }
+        .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        @media (max-width: 768px) {
+            .hero { flex-direction: column; text-align: center; }
+            .animated-title { font-size: 2.6rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .values-grid { flex-direction: column; }
+            .service-card { min-height: 280px; flex: 1 1 100%; max-width: 100%; }
+        }
+
+        /* ========== MODALE BOÎTE DE DIALOGUE PRO ========== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--modal-bg);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
+        }
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-card {
+            background: var(--bg-surface);
+            max-width: 580px;
+            width: 92%;
+            border-radius: 40px;
+            box-shadow: 0 40px 70px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.05);
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+            opacity: 0;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        body.dark .modal-card {
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 40px 70px -20px rgba(0, 0, 0, 0.8);
+        }
+        .modal.active .modal-card {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        .modal-header {
+            background: var(--blue-deep);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .modal-header h3 {
+            font-weight: 600;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .modal-close {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            font-size: 1.8rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .modal-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+        .modal-body {
+            padding: 2rem 2rem 2.2rem;
+        }
+        .choice-group {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+        .choice-btn {
+            flex: 1;
+            min-width: 140px;
+            background: var(--bg-accent-light);
+            border: 1px solid var(--border-light);
+            padding: 0.9rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            color: var(--text-primary);
+            transition: 0.2s;
+        }
+        .choice-btn i { font-size: 1.2rem; }
+        .choice-btn.whatsapp:hover {
+            background: #25D366;
+            color: white;
+            border-color: #25D366;
+            transform: scale(1.02);
+        }
+        .choice-btn.gmail:hover {
+            background: #EA4335;
+            color: white;
+            border-color: #EA4335;
+            transform: scale(1.02);
+        }
+        .form-hidden { display: none; }
+        .form-visible {
+            display: block;
+            animation: fadeForm 0.4s ease;
+        }
+        @keyframes fadeForm {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: 0.2s;
+            font-size: 0.95rem;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--blue-deep);
+            box-shadow: 0 0 0 3px rgba(10, 102, 194, 0.15);
+        }
+        .btn-submit {
+            background: var(--blue-deep);
+            color: white;
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .btn-submit:hover {
+            background: #e11d48;
+            transform: translateY(-2px);
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 1.2rem;
+        }
+        .back-link a {
+            color: var(--blue-deep);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        .form-message {
+            margin-top: 1rem;
+            padding: 0.7rem;
+            border-radius: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .form-message.success {
+            background: #10b98120;
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+        .form-message.error {
+            background: #ef444420;
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+        .contact-btn-wrapper {
+            text-align: center;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo-link">Lisanga<span>Tech</span></a>
+        <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <button class="theme-toggle" id="darkModeToggle"><i class="fas fa-moon"></i></button>
+            <div class="burger" id="burgerMenu"><i class="fas fa-bars"></i></div>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="#accueil" class="nav-link active">Accueil</a>
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#apropos" class="nav-link">À propos</a>
+            <a href="#temoignages" class="nav-link">Témoignages</a>
+            <a href="#" id="navContactBtn" class="btn-contact-nav">Contact</a>
+        </div>
+    </div>
+</nav>
+
+<section id="accueil">
+    <div class="hero">
+        <div class="hero-text">
+            <h1 class="animated-title">La technologie au service de tous</h1>
+            <p>
+Du particulier à l'entreprise, en passant par les institutions et l'ensemble de la population, <br>Lisanga Tech conçoit des solutions numériques qui répondent à de véritables besoins.<br>
+
+Nous imaginons, développons, sécurisons et maintenons des technologies fiables,<br> tout en restant à vos côtés à chaque étape.
+
+Faire mieux pour vous n'est pas seulement notre métier, c'est notre responsabilité</p>
+            <div class="hero-badge">
+                <span><i class="fas fa-shield-alt"></i> Sécurité renforcée</span>
+                <span><i class="fas fa-cloud-upload-alt"></i> Infrastructure cloud</span>
+                <span><i class="fas fa-headset"></i> Support 24/7</span>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://safeonlineafrica.com/wp-content/uploads/2023/03/two-business-woman-cafe-1024x683.jpg" alt="Équipe Lisanga Tech">
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div id="apropos" class="about-grid fade-up">
+        <div class="about-text">
+            <h2 style="font-size: 2.2rem; margin-bottom:1rem;">À propos de Lisanga Tech</h2>
+            <p>Nous sommes une startup congolaise composée d'une équipe de passionnés de l'informatique et du numérique, unis par une même conviction : la technologie doit être au service des Congolais.
+
+Notre jeunesse est notre force. Elle nourrit notre capacité d'innovation, notre volonté d'apprendre en permanence et notre engagement à offrir des services toujours plus fiables, performants et adaptés aux besoins de nos clients ainsi qu'à ceux de la population.</p>
+           
+        </div>
+        <div class="about-img"><img src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=800&h=600&fit=crop" alt="À propos"></div>
+    </div>
+
+    <div class="values-grid fade-up">
+        <div class="values-text">
+            <h2 style="font-size: 2.2rem; margin-bottom:1rem;">Pourquoi Lisanga Tech ?</h2>
+            <div class="value-item"><div class="value-icon"><i class="fas fa-gem"></i></div><div><h4>Expertise technique</h4><p>Une équipe qui apprend, évolue et adopte les meilleures<br> technologies pour vous offrir des solutions fiables et durables.</p></div></div>
+            <div class="value-item"><div class="value-icon"><i class="fas fa-shield-alt"></i></div><div><h4>Fiabilité & sécurité</h4><p>Nous concevons des solutions performantes, sécurisées <br>et pensées pour protéger vos données et assurer la continuité de vos activités.</p></div></div>
+            <div class="value-item"><div class="value-icon"><i class="fas fa-headset"></i></div><div><h4>Service client personnalisé</h4><p>Votre satisfaction est notre priorité. Nous vous accompagnons avant,<br> pendant et après chaque projet avec des conseils et une assistance adaptés à vos besoins.</p></div></div>
+        </div>
+        <div class="values-img"><img src="https://img.freepik.com/photos-gratuite/chef-equipe-du-centre-donnees-supervisant-ingenieurs-implementant-ia_482257-122665.jpg?semt=ais_hybrid&w=740&q=80" alt="Expertise"></div>
+    </div>
+    
+    <div id="services" class="fade-up" style="margin: 4rem 0;">
+        <div class="section-header">
+            <h2>Nos services experts</h2>
+            <p>Des prestations couvrant l’intégralité de votre écosystème IT</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card"><div class="service-icon"><i class="fas fa-network-wired"></i></div><h3>Réseau & infrastructures</h3><p>Des réseaux informatiques rapides, sécurisés et adaptés à vos besoins.</p><a href="reseau-infrastructures.html" class="service-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="service-card"><div class="service-icon"><i class="fas fa-desktop"></i></div><h3>Systèmes & logiciels</h3><p>Des logiciels performants conçus pour améliorer votre travail au quotidien.</p><a href="systemes-logiciels.html" class="service-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="service-card"><div class="service-icon"><i class="fas fa-screwdriver-wrench"></i></div><h3>Maintenance & support</h3><p>Nous assurons la maintenance et le support de vos systèmes pour un fonctionnement sans interruption.</p><a href="maintenance-support.php" class="service-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="service-card"><div class="service-icon"><i class="fas fa-code"></i></div><h3>Développement numérique</h3><p>Nous créons des applications web et mobiles adaptées à vos besoins..</p><a href="developpement-numerique.html" class="service-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="service-card"><div class="service-icon"><i class="fas fa-pen-fancy"></i></div><h3>Design</h3><p>Nous réalisons des designs attrayants pour une meilleure expérience utilisateur.</p><a href="design.html" class="service-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+        </div>
+    </div>
+
+    <div id="temoignages" class="testimonials fade-up">
+        <h2 style="font-size: 1.8rem;">Ce que nos clients disent</h2>
+        <p style="color: var(--text-muted);">Ils nous font confiance et transforment leur IT avec Lisanga Tech</p>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <img class="testimonial-avatar" src="https://cdn.pixabay.com/photo/2022/03/27/00/55/black-woman-7093911_1280.jpg" alt="Sophie D.">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>“Lisanga Tech a modernisé notre infrastructure en un temps record. Réactivité et compétences au top !”</p>
+                <strong>Sophie D.</strong> – Directrice, FinCorp
+            </div>
+            <div class="testimonial-card">
+                <img class="testimonial-avatar" src="https://img.magnific.com/photos-gratuite/portrait-homme-noir-souriant_23-2149022881.jpg?semt=ais_hybrid&w=740&q=80" alt="Marc L.">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>“Leur équipe a boosté notre e-commerce : +45% de conversion. Un vrai partenaire stratégique.”</p>
+                <strong>Marc L.</strong> – CEO, BloomStore
+            </div>
+            <div class="testimonial-card">
+                <img class="testimonial-avatar" src="https://img.freepik.com/photos-gratuite/concept-reussite-professionnelle-executive-femme-affaires_53876-137644.jpg?semt=ais_hybrid&w=740&q=80" alt="Amira R.">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                <p>“Support réactif, conseils pertinents. Une expertise rare et un service client irréprochable.”</p>
+                <strong>Amira R.</strong> – CTO, SmartLog
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-btn-wrapper">
+        <button class="btn-primary" id="openModalBtn"><i class="fas fa-paper-plane"></i> Nous contacter</button>
+    </div>
+    <div class="fade-up" style="text-align: center; margin: 2rem 0 1rem;">
+        <h2 style="font-size: 2rem; font-weight: 700;">La technologie au service de tous.</h2>
+        <p style="color: var(--text-muted); max-width: 700px; margin: 1rem auto;">: Applications, infrastructures et maintenance:un partenaire technologique de confiance pour accompagner votre évolution.</p>
+        <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+            <span style="background: var(--bg-soft); padding: 0.5rem 1.2rem; border-radius: 60px;"><i class="fas fa-map-marker-alt"></i> Kinshasa / RDC</span>
+            <span style="background: var(--bg-soft); padding: 0.5rem 1.2rem; border-radius: 60px;"><i class="fas fa-envelope"></i> lisangatechservice@gmail.com</span>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-pro">
+    <div class="footer-inner">
+        <div class="footer-col"><h4>Lisanga Tech</h4><p>Innovation • Fiabilité • Proximité</p><div class="social-links"><a href="https://www.facebook.com/share/1Bf3PjgoVx/?mibextid=wwXIfr"><i class="fab fa-facebook-f"></i></a><a href="https://wa.me/message/4ECM355ZWVOPK1"><i class="fab fa-whatsapp"></i></a><a href="https://www.tiktok.com/@lisangatech"><i class="fab fa-tiktok"></i></a></div></div>
+        <div class="footer-col"><h4>Liens rapides</h4><p><a href="#accueil">Accueil</a></p><p><a href="#services">Services</a></p><p><a href="#apropos">À propos</a></p><p><a href="#temoignages">Témoignages</a></p></div>
+        <div class="footer-col"><h4>Contact</h4><p><i class="fas fa-envelope"></i> lisangatechservice@gmail.com</p><p><i class="fas fa-map-marker-alt"></i> Kinshasa, RDC</p></div>
+    </div>
+    <div class="copyright">© 2026 Lisanga Tech — La technologie au service de tous.</div>
+</footer>
+
+<!-- MODALE CONTACT (BOÎTE DE DIALOGUE PRO) -->
+<div id="contactModal" class="modal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3><i class="fas fa-headset"></i> Contactez-nous</h3>
+            <button class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div id="choicePanel">
+                <p style="text-align:center; margin-bottom:1.2rem; color: var(--text-secondary);">Choisissez votre moyen de contact :</p>
+                <div class="choice-group">
+                    <button id="whatsappChoice" class="choice-btn whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                    <button id="gmailChoice" class="choice-btn gmail"><i class="fas fa-envelope"></i> Gmail / Formulaire</button>
+                </div>
+            </div>
+            <div id="gmailFormPanel" class="form-hidden">
+                <form id="contactForm" action="https://formspree.io/f/xjgzyeqp" method="POST">
+                    <div class="form-group"><label>Nom complet</label><input type="text" name="name" placeholder="Votre nom" required></div>
+                    <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="exemple@domaine.com" required></div>
+                    <div class="form-group"><label>Message</label><textarea name="message" rows="4" placeholder="Décrivez votre projet..."></textarea></div>
+                    <button type="submit" class="btn-submit">Envoyer <i class="fas fa-arrow-right"></i></button>
+                    <div id="formFeedback" class="form-message" style="display: none;"></div>
+                </form>
+                <div class="back-link"><a id="backToChoice">← Revenir aux options</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dark Mode
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const body = document.body;
+    const icon = toggleBtn.querySelector('i');
+    if (localStorage.getItem('theme') === 'dark') {
+        body.classList.add('dark');
+        icon.classList.remove('fa-moon'); icon.classList.add('fa-sun');
+    }
+    toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        if (body.classList.contains('dark')) {
+            localStorage.setItem('theme', 'dark');
+            icon.classList.remove('fa-moon'); icon.classList.add('fa-sun');
+        } else {
+            localStorage.setItem('theme', 'light');
+            icon.classList.remove('fa-sun'); icon.classList.add('fa-moon');
+        }
+    });
+    // Burger
+    const burger = document.getElementById('burgerMenu');
+    const navLinksMenu = document.getElementById('navLinks');
+    burger.addEventListener('click', () => {
+        navLinksMenu.classList.toggle('active');
+        const ic = burger.querySelector('i');
+        if (navLinksMenu.classList.contains('active')) ic.classList.replace('fa-bars', 'fa-times');
+        else ic.classList.replace('fa-times', 'fa-bars');
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinksMenu.classList.remove('active');
+            const ic = burger.querySelector('i');
+            if (ic.classList.contains('fa-times')) ic.classList.replace('fa-times', 'fa-bars');
+        });
+    });
+    // fade-up
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.15 });
+    fadeElements.forEach(el => observer.observe(el));
+    // Modal
+    const modal = document.getElementById('contactModal');
+    const openBtns = [document.getElementById('openModalBtn'), document.getElementById('navContactBtn')];
+    const closeBtn = document.getElementById('closeModalBtn');
+    const choicePanel = document.getElementById('choicePanel');
+    const gmailPanel = document.getElementById('gmailFormPanel');
+    const whatsappBtn = document.getElementById('whatsappChoice');
+    const gmailBtn = document.getElementById('gmailChoice');
+    const backLink = document.getElementById('backToChoice');
+    const contactForm = document.getElementById('contactForm');
+    const feedbackDiv = document.getElementById('formFeedback');
+    function openModalFunc() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        choicePanel.style.display = 'block';
+        gmailPanel.classList.remove('form-visible'); gmailPanel.classList.add('form-hidden');
+        if (feedbackDiv) feedbackDiv.style.display = 'none';
+        if (contactForm) contactForm.reset();
+    }
+    function closeModalFunc() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+    openBtns.forEach(btn => { if(btn) btn.addEventListener('click', openModalFunc); });
+    closeBtn.addEventListener('click', closeModalFunc);
+    modal.addEventListener('click', (e) => { if(e.target === modal) closeModalFunc(); });
+    whatsappBtn.addEventListener('click', () => {
+        window.open('https://wa.me/message/4ECM355ZWVOPK1', '_blank');
+        closeModalFunc();
+    });
+    gmailBtn.addEventListener('click', () => {
+        choicePanel.style.display = 'none';
+        gmailPanel.classList.remove('form-hidden'); gmailPanel.classList.add('form-visible');
+        if (feedbackDiv) feedbackDiv.style.display = 'none';
+    });
+    if(backLink) backLink.addEventListener('click', () => {
+        gmailPanel.classList.remove('form-visible'); gmailPanel.classList.add('form-hidden');
+        choicePanel.style.display = 'block';
+    });
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(contactForm);
+            feedbackDiv.style.display = 'block';
+            feedbackDiv.textContent = 'Envoi en cours...';
+            feedbackDiv.className = 'form-message';
+            try {
+                const response = await fetch(contactForm.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
+                if (response.ok) {
+                    feedbackDiv.textContent = '✅ Message envoyé avec succès !';
+                    feedbackDiv.classList.add('success');
+                    contactForm.reset();
+                    setTimeout(() => { closeModalFunc(); feedbackDiv.style.display = 'none'; }, 2000);
+                } else {
+                    feedbackDiv.textContent = '❌ Erreur lors de l’envoi.';
+                    feedbackDiv.classList.add('error');
+                }
+            } catch (err) {
+                feedbackDiv.textContent = '❌ Erreur de connexion.';
+                feedbackDiv.classList.add('error');
+            }
+        });
+    }
+    // Active link
+    const sections = document.querySelectorAll('section[id], div[id]');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        const scrollPos = window.scrollY + 120;
+        sections.forEach(section => {
+            const top = section.offsetTop, height = section.offsetHeight;
+            if (scrollPos >= top && scrollPos < top + height) current = section.getAttribute('id');
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>
